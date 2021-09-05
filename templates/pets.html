@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if pets %}
+
+<ul>
+    {% for pet in pets %}
+    <li>
+        <img src="{{pet.img_url}}" alt="{{pet.species}} {{pet.name}}">
+        <p><a href="/pets/{{pet.id}}">{{pet.name}}</a> is available!</p>
+    </li>
+    {% endfor %}
+</ul>
+
+{% else %}
+
+<p>There are currently no pets to show.</p>
+
+{% endif %}
+
+{% endblock %}
