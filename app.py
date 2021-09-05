@@ -1,5 +1,8 @@
-from flask import Flask, request, render_template, redirect
+from logging import PercentStyle
+from flask import Flask, request, render_template, redirect, flash
+from flask.templating import render_template_string
 from pet_model import Pet, db, connect_db
+from forms import AddPetForm
 from flask_debugtoolbar import DebugToolbarExtension
 from werkzeug.exceptions import HTTPException
 
@@ -14,3 +17,21 @@ debug = DebugToolbarExtension(app)
 connect_db(app)
 db.create_all()
 
+@app.route("/", methods=["GET"])
+def home():
+
+    pets = Pet.query.filter_by(available=True).all()
+    return render_template("pets.html", pets=pets)
+
+@app.route("/add", methods=["GET", "POST"])
+def add_pet():
+
+    form = AddPetForm()
+
+    if form.validate_on_submit():
+        name = form.name.data
+        flash(f"{name} has been added.")
+        return redirect("/")
+    
+    else:
+        return render_template("add_pet.html", form=form)

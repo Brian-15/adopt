@@ -3,12 +3,14 @@
 {% block content %}
 
 {% if pets %}
-
+<h1></h1>
 <ul>
     {% for pet in pets %}
     <li>
-        <img src="{{pet.img_url}}" alt="{{pet.species}} {{pet.name}}">
-        <p><a href="/pets/{{pet.id}}">{{pet.name}}</a> is available!</p>
+        {% if pet.photo_url %}
+        <img src="{{pet.photo_url}}" alt="{{pet.species}} {{pet.name}}" height=200 width=html>
+        {% endif %}
+        <p><a href="/pets/{{pet.id}}">{{pet.name}}</a> is{% if not pet.available %} not{% endif %} available!</p>
     </li>
     {% endfor %}
 </ul>
