@@ -2,6 +2,10 @@
 
 {% block content %}
 
+{% for msg in get_flashed_messages() %}
+<p class="alert-success">{{msg}}</p>
+{% endfor %}
+
 {% if pets %}
 <h1></h1>
 <ul>
@@ -10,7 +14,7 @@
         {% if pet.photo_url %}
         <img src="{{pet.photo_url}}" alt="{{pet.species}} {{pet.name}}" height=200 width=html>
         {% endif %}
-        <p><a href="/pets/{{pet.id}}">{{pet.name}}</a> is{% if not pet.available %} not{% endif %} available!</p>
+        <p><a href="/{{pet.id}}">{{pet.name}}</a> is{% if not pet.available %} not{% endif %} available!</p>
     </li>
     {% endfor %}
 </ul>
@@ -20,5 +24,7 @@
 <p>There are currently no pets to show.</p>
 
 {% endif %}
+
+<a class="btn btn-primary" href="/add">Add Pet</a>
 
 {% endblock %}
