@@ -1,3 +1,4 @@
+"""seed for adopt database"""
 
 from pet_model import Pet, db, connect_db
 from app import app

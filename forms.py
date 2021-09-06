@@ -4,15 +4,17 @@ from wtforms import StringField, IntegerField, BooleanField
 from wtforms.validators import InputRequired, URL, NumberRange, Optional
 
 class AddPetForm(FlaskForm):
+    """Form class for adding a pet"""
 
     name        = StringField("Name", validators=[InputRequired()])
     species     = StringField("Species", validators=[InputRequired()])
     photo_url   = StringField("Photo URL", validators=[Optional(), URL()])
     age         = IntegerField("Age", validators=[Optional(), NumberRange(min=0, max=30)])
     notes       = StringField("Notes", validators=[Optional()])
-    available   = BooleanField("Available?", validators=[InputRequired()], default=True)
+    available   = BooleanField("Available?", default=True)
 
 class EditPetForm(FlaskForm):
+    """Form class for editing pet"""
 
     photo_url   = StringField("Photo URL", validators=[Optional(), URL()])
     notes       = StringField("Notes", validators=[Optional()])

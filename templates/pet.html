@@ -1,47 +1,62 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{{pet.name}}</h1>
+<div class="container">
+    <h1 class="display-1 text-center">{{pet.name}}</h1>
 
-<img src="{{pet.photo_url}}" alt="{{pet.name}}">
+    <div class="row justify-content-center">
 
-<h2>Notes</h2>
-{% if pet.available %}
-<p class="alert-success">Available</p>
-{% else %}
-<p class="alert-danger">Not available</p>
-{% endif %}
-</p>
+        <img class="img-fluid" src="{{pet.photo_url}}" alt="{{pet.name}}" height="500">
 
-{% if pet.notes %}
+        {% if pet.available %}
+        <p class="alert-success text-center mt-3">Available</p>
+        {% else %}
+        <p class="alert-danger text-center mt-3">Not available</p>
+        {% endif %}
+        </p>
 
-<p>{{pet.notes}}</p>
+        <h2>Notes</h2>
+        {% if pet.notes %}
 
-{% else %}
+        <p>{{pet.notes}}</p>
 
-<p>No notes to show.</p>
+        {% else %}
 
-{% endif %}
+        <p>No notes to show.</p>
 
-<h2>Edit {{pet.name}}</h2>
-<form action="/{{pet.id}}" method="POST">
-    {{ form.hidden_tag() }}
-    {% for field in form 
-        if field.widget.input_type != 'hidden' %}
-    
-    <p>
-        {{ field.label }}
-        {{ field }}
+        {% endif %}
 
-        {% for err in field.errors %}
-            {{err}}
-        {% endfor %}
-    </p>
+        <h2>Edit {{pet.name}}</h2>
+        <form action="/{{pet.id}}" method="POST">
+            {{ form.hidden_tag() }}
+            {% for field in form 
+                if field.widget.input_type != 'hidden' %}
+            
+            <div class="form-group">
+                {% if field.label.text != 'Toggle Availablility (leave unchecked for no change)' %}
+                {{ field.label }}
+                {{ field(class_="form-control") }}
+                {% else %}
+                {{ field.label(class_="form-check-label") }}
+                {{ field(class_="form-check-input") }}
+                {% endif %}
 
-    {% endfor %}
+                {% for err in field.errors %}
+                <small class="form-text">
+                    {{err}}
+                </small>    
+                {% endfor %}
+            </p>
 
-    <button class="btn btn-primary" type="submit">Submit Changes</button>
+            {% endfor %}
 
-</form>
+            <button class="btn btn-primary" type="submit">Submit Changes</button>
+
+        </form>
+        
+    </div>
+
+</div>
+
 
 {% endblock %}

@@ -1,24 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container">
+<h1 class="display-1 text-center">Add a pet</h1>
+<div class="row justify-content-center">
 
-<h1>Add a pet</h1>
+    <div class="col-md-8">
+        <form action="/add" method="POST">
+            {{ form.hidden_tag() }}
+            {% for field in form
+                if field.widget.input_type != 'hidden' %}
+            <div class="form-group">
+                {% if field.label.text != 'Available?' %}
+                {{ field.label }}
+                {{ field(class_="form-control") }}
+                {% else %}
+                {{ field.label(class_="form-check-label") }}
+                {{ field(class_="form-check-input") }}
+                {% endif %}
+        
+                {% for err in field.errors %}
+                <small class="form-text">
+                    {{err}}
+                </small>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            <a class="btn btn-tertiary" href="/">Cancel</a>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
 
-<form action="" method="POST">
-    {{ form.hidden_tag() }}
-    {% for field in form
-        if field.widget.input_type != 'hidden' %}
-    <p>
-        {{field.label}}
-        {{field}}
+</div>
 
-        {% for err in field.errors %}
-            {{err}}
-        {% endfor %}
-    </p>
-    {% endfor %}
-    <a class="btn btn-tertiary" href="/">Cancel</a>
-    <button class="btn btn-primary" type="submit">Submit</button>
-</form>
 
 {% endblock %}

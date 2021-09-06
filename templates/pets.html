@@ -5,26 +5,30 @@
 {% for msg in get_flashed_messages() %}
 <p class="alert-success">{{msg}}</p>
 {% endfor %}
+<div class="container">
+    
+    <h1 class="display-1 text-center">Adopt-A-Pet</h1>
+    <a class="btn btn-primary mt-3 mb-3 container" href="/add">Add Pet</a>
 
-{% if pets %}
-<h1></h1>
-<ul>
-    {% for pet in pets %}
-    <li>
-        {% if pet.photo_url %}
-        <img src="{{pet.photo_url}}" alt="{{pet.species}} {{pet.name}}" height=200 width=html>
-        {% endif %}
-        <p><a href="/{{pet.id}}">{{pet.name}}</a> is{% if not pet.available %} not{% endif %} available!</p>
-    </li>
-    {% endfor %}
-</ul>
+    <div class="row w-100">
+    {% if pets %}
+        {% for pet in pets %}
+        <div class="w-25 col-md-8 justify-content-center">
+            {% if pet.photo_url %}
+            <img src="{{pet.photo_url}}" alt="{{pet.species}} {{pet.name}}" width="100%">
+            {% endif %}
+            <p><a href="/{{pet.id}}">{{pet.name}}</a> is{% if not pet.available %} not{% endif %} available!</p>
+        </div>
+        {% endfor %}
+    
+    {% else %}
+    
+    <p>There are currently no pets to show.</p>
+    
+    {% endif %}
+    </div>
+    
+</div>
 
-{% else %}
-
-<p>There are currently no pets to show.</p>
-
-{% endif %}
-
-<a class="btn btn-primary" href="/add">Add Pet</a>
 
 {% endblock %}

@@ -1,6 +1,4 @@
-from logging import PercentStyle, error
-from flask import Flask, request, render_template, redirect, flash
-from flask.templating import render_template_string
+from flask import Flask, render_template, redirect, flash
 from pet_model import Pet, db, connect_db
 from forms import AddPetForm, EditPetForm
 from flask_debugtoolbar import DebugToolbarExtension
@@ -18,13 +16,18 @@ connect_db(app)
 db.create_all()
 
 @app.route("/", methods=["GET"])
-def home():
+def list_pets():
+    """List all pets"""
 
-    pets = Pet.query.filter_by(available=True).all()
+    pets = Pet.query.all()
     return render_template("pets.html", pets=pets)
 
 @app.route("/add", methods=["GET", "POST"])
 def add_pet():
+    """
+        GET:  displays form for adding new pet.
+        POST: sends new pet data to database
+    """
 
     form = AddPetForm()
 
@@ -76,3 +79,11 @@ def handle_pet(id):
         return redirect("/")
     else:
         return render_template("pet.html", form=form, pet=pet)
+    
+@app.errorhandler(Exception)
+def error_page(error):
+
+    if isinstance(error, HTTPException):
+        return render_template("error.html", error=error)
+    else:
+        return render_template("error.html", error=error), 500
